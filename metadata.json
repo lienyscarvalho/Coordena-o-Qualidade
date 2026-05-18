@@ -1,6 +1,6 @@
 {
-  "name": "Vivo Qualidade",
-  "description": "App de Gestão de Indicadores de Qualidade - Vivo",
+  "name": "Vivo - Painel de Indicadores",
+  "description": "Dashboard de indicadores de qualidade (IRR, IFI, NTDA, IRT) com recursos de exportação e IA.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
