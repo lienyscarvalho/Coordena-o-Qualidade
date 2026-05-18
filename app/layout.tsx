@@ -20,6 +20,8 @@ export const metadata: Metadata = {
   description: 'Painel de Indicadores',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="pt-BR" className="h-full" suppressHydrationWarning>

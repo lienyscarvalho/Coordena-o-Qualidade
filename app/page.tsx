@@ -1,12 +1,9 @@
 "use client";
 
-import React, { useState } from 'react';
-import { ChevronDown, LayoutDashboard, ArrowRight, TrendingUp, BarChart2, Download } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ChevronDown, ArrowRight, TrendingUp, BarChart2, Download } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LabelList } from 'recharts';
-import * as XLSX from 'xlsx';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
 
 const dataIRR = [
   { name: 'Acassio', value: 8.5, max: 10 },
@@ -65,16 +62,19 @@ export default function DashboardPage() {
     }
   };
 
-  const handleExportExcel = () => {
+  const handleExportExcel = async () => {
     const data = getData();
+    const XLSX = await import('xlsx');
     const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, `Relatório ${view}`);
     XLSX.writeFile(wb, `Relatorio_${view}.xlsx`);
   };
 
-  const handleExportPDF = () => {
+  const handleExportPDF = async () => {
     const data = getData();
+    const { default: jsPDF } = await import('jspdf');
+    const { default: autoTable } = await import('jspdf-autotable');
     const doc = new jsPDF();
     doc.text(`Relatório de Indicadores - ${view}`, 14, 15);
     

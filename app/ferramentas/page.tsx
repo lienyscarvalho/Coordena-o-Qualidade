@@ -2,8 +2,6 @@
 
 import React from 'react';
 import { Wrench, Target, Box, Activity, Layers, ActivitySquare, ListChecks, ArrowRightLeft, Download } from 'lucide-react';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
 
 const ferramentas = [
   {
@@ -86,7 +84,10 @@ const ferramentas = [
 ];
 
 export default function FerramentasPage() {
-  const handleExportPDF = () => {
+  const handleExportPDF = async () => {
+    const { default: jsPDF } = await import('jspdf');
+    const { default: autoTable } = await import('jspdf-autotable');
+    
     const doc = new jsPDF();
     doc.text('Análises das Ferramentas de Gestão da Qualidade', 14, 15);
     
