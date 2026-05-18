@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vivo - Painel de Indicadores de Qualidade
 
-## Getting Started
+Este é um dashboard desenvolvido para a Coordenação de Qualidade da Vivo, focado no monitoramento de indicadores críticos de desempenho.
 
-First, run the development server:
+## 🚀 Funcionalidades
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Dashboard Interativo**: Acompanhamento em tempo real dos indicadores:
+  - **IRR**: Índice de Reparos Repetidos
+  - **IFI**: Índice de Falhas de Instalação
+  - **NTDA**: Novas Tecnologias e Diagnóstico Automatizado
+  - **IRT**: Índice de Reclamações Técnicas
+- **7 Ferramentas da Qualidade**: Página dedicada com conceitos e aplicações práticas (Ishikawa, Pareto, etc.) focadas em KPIs Vivo.
+- **Exportação de Dados**: Gere relatórios em PDF e Excel diretamente do navegador.
+- **Modo Escuro/Claro**: Interface moderna e adaptável.
+- **Integração com IA**: (Em desenvolvimento) Insights automáticos sobre desvios de indicadores.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tecnologias Utilizadas
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Next.js**: Framework React para web.
+- **Tailwind CSS**: Estilização moderna e responsiva.
+- **Lucide React**: Ícones elegantes.
+- **Recharts**: Gráficos de barra e tendências.
+- **jsPDF & XLSX**: Bibliotecas para exportação de documentos.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📈 Como Usar
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Acesse o Dashboard Principal.
+2. Selecione o indicador no menu superior.
+3. Utilize os filtros de coordenador e data para refinar a análise.
+4. Exportar relatórios conforme necessário para reuniões de performance.
