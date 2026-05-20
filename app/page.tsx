@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ChevronDown, ArrowRight, TrendingUp, BarChart2, Download } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LabelList } from 'recharts';
@@ -76,9 +76,9 @@ export default function DashboardPage() {
     const { default: jsPDF } = await import('jspdf');
     const { default: autoTable } = await import('jspdf-autotable');
     const doc = new jsPDF();
-    doc.text(`Relatório de Indicadores - ${view}`, 14, 15);
+    doc.text(`Relatorio de Indicadores - ${view}`, 14, 15);
     
-    const tableColumn = ["Coordenador", "Valor Atual", "Meta Máxima", "Status"];
+    const tableColumn = ["Coordenador", "Valor Atual", "Meta Maxima", "Status"];
     const tableRows = data.map(item => [
       item.name,
       item.value.toString(),
@@ -86,11 +86,40 @@ export default function DashboardPage() {
       item.value > item.max ? "Acima da Meta" : "Dentro da Meta"
     ]);
 
-    autoTable(doc, {
+    const options = {
       head: [tableColumn],
       body: tableRows,
       startY: 20,
-    });
+    };
+
+    interface jsPDFWithAutoTable {
+      autoTable?: (options: unknown) => void;
+    }
+
+    const docWithPlugin = doc as unknown as jsPDFWithAutoTable;
+    if (typeof docWithPlugin.autoTable === 'function') {
+      docWithPlugin.autoTable(options);
+    } else {
+      let runAutoTable: unknown = autoTable;
+      if (typeof runAutoTable !== 'function' && runAutoTable && typeof (runAutoTable as { default?: unknown }).default !== 'undefined') {
+        runAutoTable = (runAutoTable as { default: unknown }).default;
+      }
+      if (typeof runAutoTable === 'function') {
+        (runAutoTable as (d: unknown, o: unknown) => void)(doc, options);
+      } else {
+        // Fallback manually if jspdf-autotable plugin can't be loaded
+        let y = 25;
+        tableRows.forEach(row => {
+          if (y > 270) {
+            doc.addPage();
+            y = 20;
+          }
+          doc.setFont("helvetica", "bold");
+          doc.text(`${row[0]}: ${row[1]} (Meta: ${row[2]}) - ${row[3]}`, 14, y);
+          y += 10;
+        });
+      }
+    }
     
     doc.save(`Relatorio_${view}.pdf`);
   };

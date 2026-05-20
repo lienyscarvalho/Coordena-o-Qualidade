@@ -7,6 +7,10 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  // Log the error for diagnostic purposes
+  if (typeof window !== 'undefined') {
+    console.error("Global Error captured:", error);
+  }
   return (
     <html>
       <body>

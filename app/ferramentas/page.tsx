@@ -89,26 +89,58 @@ export default function FerramentasPage() {
     const { default: autoTable } = await import('jspdf-autotable');
     
     const doc = new jsPDF();
-    doc.text('Análises das Ferramentas de Gestão da Qualidade', 14, 15);
+    doc.text('Analises das Ferramentas de Gestao da Qualidade', 14, 15);
     
-    const tableColumn = ["Ferramenta", "Conceito", "Aplicações (Vivo)"];
+    const tableColumn = ["Ferramenta", "Conceito", "Aplicacoes (Vivo)"];
     const tableRows = ferramentas.map(f => [
       f.nome,
       f.descricao,
       f.aplicacoes.map(a => `${a.kpi}: ${a.texto}`).join('\n')
     ]);
 
-    autoTable(doc, {
+    const options = {
       head: [tableColumn],
       body: tableRows,
       startY: 20,
       styles: { fontSize: 8 },
       columnStyles: {
-        0: { cellWidth: 40 },
-        1: { cellWidth: 70 },
-        2: { cellWidth: 70 }
+        0: { cellWidth: 45 },
+        1: { cellWidth: 65 },
+        2: { cellWidth: 75 }
       }
-    });
+    };
+
+    interface jsPDFWithAutoTable {
+      autoTable?: (options: unknown) => void;
+    }
+
+    const docWithPlugin = doc as unknown as jsPDFWithAutoTable;
+    if (typeof docWithPlugin.autoTable === 'function') {
+      docWithPlugin.autoTable(options);
+    } else {
+      let runAutoTable: unknown = autoTable;
+      if (typeof runAutoTable !== 'function' && runAutoTable && typeof (runAutoTable as { default?: unknown }).default !== 'undefined') {
+        runAutoTable = (runAutoTable as { default: unknown }).default;
+      }
+      if (typeof runAutoTable === 'function') {
+        (runAutoTable as (d: unknown, o: unknown) => void)(doc, options);
+      } else {
+        // Fallback manually if jspdf-autotable plugin can't be found
+        let y = 25;
+        tableRows.forEach(row => {
+          if (y > 270) {
+            doc.addPage();
+            y = 20;
+          }
+          doc.setFont("helvetica", "bold");
+          doc.text(row[0], 14, y);
+          doc.setFont("helvetica", "normal");
+          const descLines = doc.splitTextToSize(row[1], 170);
+          doc.text(descLines, 14, y + 5);
+          y += descLines.length * 5 + 10;
+        });
+      }
+    }
     
     doc.save('ferramentas_qualidade.pdf');
   };
